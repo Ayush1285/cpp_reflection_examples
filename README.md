@@ -12,7 +12,7 @@ The goal is to demonstrate how reflection can replace common boilerplate and ena
 
 ### Prerequisites
 
-- GCC experimental reflection branch built from source. Link: https://forge.sourceware.org/marek/gcc.git
+- GCC experimental reflection branch build from source. Link: https://forge.sourceware.org/marek/gcc.git
 
 ### Build and run
 
@@ -36,10 +36,78 @@ To run specific examples:
 ./bin/example_serialize_aggregate
 ```
 
+### Sample output
+
+`./bin/example_enum_to_string`
+
+```text
+Color::Red -> Red
+Color::Blue -> Blue
+
+Planners::RRT -> RRT
+Planners::HYBRID_ASTAR -> HYBRID_ASTAR
+
+RobotState::Idle -> Idle
+RobotState::Moving -> Moving
+RobotState::EmergencyStop -> EmergencyStop
+```
+
+`./bin/example_aggregate_formatter`
+
+```text
+Printing Point struct:
+  Point{ x=1.5, y=2.5, z=3.5 }
+
+Printing Quaternion struct:
+  Quaternion{ w=0.707, x=0, y=0.707, z=0 }
+
+Printing Pose struct:
+  Pose{ position = Point{ x = 1, y = 2, z = 3 }, orientation = Quaternion{ w = 1, x = 0, y = 0, z = 0 } }
+
+Printing RobotState struct:
+  RobotState{ id = 42, pose = Pose{ position = Point{ x = 5, y = 6, z = 7 }, orientation = Quaternion{ w = 0.5, x = 0.5, y = 0.5, z = 0.5 } }, velocity = 1.5, active = 1 }
+```
+
+`./bin/example_optimize_type_layout`
+
+```text
+BadLayout original:
+  sizeof: 48 bytes
+  alignof: 8
+
+OptimizedBadLayout using optimize_type_layout:
+  sizeof: 24 bytes
+  alignof: 8
+
+Space saved: 24 bytes
+```
+
+`./bin/example_structure_of_arrays`
+
+```text
+Accessing SoA data:
+  All X values: 0 1 2 3 4 5 6 7 8 9
+  All Y values: 0 2 4 6 8 10 12 14 16 18
+  All Z values: 0 3 6 9 12 15 18 21 24 27
+```
+
+`./bin/example_serialize_aggregate`
+
+```text
+  serialized_size: 161 bytes, written: 161 bytes
+  read: 161 bytes
+  roundtrip equal: true
+
+  serialized_size: 36 bytes, written: 36 bytes
+  read: 36 bytes
+  roundtrip equal: true
+```
+
 
 ### Notes
 
 - These examples target an experimental compiler implementation and may break as the reflection design and GCC implementation evolve.
+- The `serialize_aggregate` example is meant as a reflection-driven technique demo; it is not intended to define a stable, production code.
 
 ### Thanks
 
